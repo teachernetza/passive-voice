@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Passive Voice Lab | Rators Club</title>
+    
+    <link rel="icon" href="https://drive.google.com/thumbnail?id=1bOFY9XiVAv-WRQnVHXSnL5FHVEoK3UAp&sz=w128" type="image/png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ========================================
+           SISTEMA DE DISEÑO: PREMIUM EDUCATIONAL GLOW
+           ======================================== */
+        :root {
+            /* Paleta Modo Claro (Papel cálido, Índigo Profundo) */
+            --bg-color: #fdfcf9; 
+            --surface-color: #ffffff;
+            --surface-hover: #f4f5f7;
+            --header-bg: rgba(255, 255, 255, 0.92);
+            
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            
+            /* Colores de Marca Elegantes */
+            --primary: #3730a3; /* Índigo profundo */
+            --primary-light: rgba(55, 48, 163, 0.05);
+            --secondary: #059669; /* Esmeralda oscuro */
+            --secondary-light: rgba(5, 150, 105, 0.05);
+            --accent: #d97706; /* Dorado elegante */
+            --error: #dc2626; /* Rojo para errores */
+            
+            --border-color: #e5e7eb;
+            --border-focus: rgba(55, 48, 163, 0.2);
+            
+            /* The Elegant Glow System */
+            --glow-static: 0 8px 25px rgba(55, 48, 163, 0.06);
+            --glow-hover: 0 15px 40px rgba(55, 48, 163, 0.15);
+            --glow-secondary: 0 15px 40px rgba(5, 150, 105, 0.15);
+            
+            --radius-soft: 16px;
+            --radius-card: 28px;
+        }
+
+        .dark-mode {
+            /* Paleta Modo Oscuro (Biblioteca Nocturna) */
+            --bg-color: #0f1115; 
+            --surface-color: #1a1d24;
+            --surface-hover: #252932;
+            --header-bg: rgba(15, 17, 21, 0.92);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            --primary: #818cf8; 
+            --primary-light: rgba(129, 140, 248, 0.1);
+            --secondary: #34d399; 
+            --secondary-light: rgba(52, 211, 153, 0.1);
+            --accent: #fbbf24;
+            --error: #ef4444;
+            
+            --border-color: #2d3139;
+            --border-focus: rgba(129, 140, 248, 0.4);
+            
+            --glow-static: 0 8px 25px rgba(129, 140, 248, 0.08);
+            --glow-hover: 0 15px 40px rgba(129, 140, 248, 0.25);
+            --glow-secondary: 0 15px 40px rgba(52, 211, 153, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        body { 
+            font-family: 'Nunito Sans', sans-serif; 
+            background-color: var(--bg-color); color: var(--text-main); 
+            transition: background-color 0.6s ease, color 0.6s ease; 
+            line-height: 1.8; font-size: 17px;
+        }
+
+        h1, h2, h3, .serif-text { font-family: 'Lora', serif; font-weight: 600; }
+
+        .learning-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.4; transition: opacity 0.5s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 1.2rem 3.5rem; display: flex; justify-content: space-between; align-items: center;
+            background: var(--header-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 2000; border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+        
+        .header-brand { display: flex; align-items: center; gap: 18px; text-decoration: none; color: inherit; transition: 0.3s; }
+        .header-brand:hover { transform: translateY(-2px); }
+        
+        .logo-box { 
+            width: 55px; height: 55px; border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; 
+            background: var(--surface-color); overflow: hidden; border: 2px solid var(--border-focus);
+            box-shadow: var(--glow-static); transition: 0.4s ease;
+        }
+        .header-brand:hover .logo-box { box-shadow: var(--glow-hover); border-color: var(--primary); }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .brand-text { font-family: 'Nunito Sans', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary); }
+
+        .menu-trigger { 
+            background: var(--surface-color); border: 1px solid var(--border-color); 
+            width: 50px; height: 50px; border-radius: 14px; cursor: pointer; 
+            color: var(--text-main); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; 
+            transition: 0.3s ease; box-shadow: var(--glow-static);
+        }
+        .menu-trigger:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); box-shadow: var(--glow-hover); }
+
+        /* --- Sidebar --- */
+        .sidebar { 
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; 
+            background: var(--surface-color); z-index: 3000; 
+            transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1); padding: 3rem 2.5rem; 
+            border-left: 1px solid var(--border-color); box-shadow: -15px 0 50px rgba(0,0,0,0.08);
+            display: flex; flex-direction: column;
+        }
+        .sidebar.active { right: 0; }
+        
+        .sidebar-close {
+            background: none; border: none; font-size: 2rem; align-self: flex-end; 
+            color: var(--text-muted); cursor: pointer; transition: 0.3s; margin-bottom: 2rem;
+        }
+        .sidebar-close:hover { color: var(--text-main); transform: scale(1.1) rotate(90deg); }
+
+        .nav-title { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; padding-left: 5px; }
+
+        .side-btn { 
+            width: 100%; padding: 18px 22px; border: 1px solid transparent; border-radius: var(--radius-soft); 
+            background: transparent; color: var(--text-muted); font-weight: 600; text-align: left; 
+            cursor: pointer; display: flex; align-items: center; gap: 18px; text-decoration: none; 
+            font-size: 1.1rem; transition: 0.3s; font-family: 'Nunito Sans', sans-serif; margin-bottom: 10px;
+        }
+        .side-btn i { font-size: 1.3rem; width: 30px; text-align: center; transition: 0.3s; color: var(--text-muted); opacity: 0.8;}
+        .side-btn:hover { background: var(--surface-hover); color: var(--text-main); transform: translateX(-5px); border-color: var(--border-color); }
+        .side-btn:hover i { color: var(--primary); opacity: 1; }
+        .side-btn.active { background: var(--primary-light); color: var(--primary); font-weight: 700; border-color: var(--border-focus); box-shadow: inset 0 0 15px rgba(55, 48, 163, 0.03); }
+        .side-btn.active i { color: var(--primary); opacity: 1; }
+
+        .theme-control {
+            margin-top: auto; padding: 22px; border-radius: var(--radius-soft); display: flex; justify-content: space-between; align-items: center; background: var(--surface-hover); border: 1px solid var(--border-color);
+        }
+        .theme-control span { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+        .switch { position: relative; width: 54px; height: 30px; cursor: pointer; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--text-muted); border-radius: 30px; transition: 0.4s; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background: white; border-radius: 50%; transition: 0.4s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* --- Contenedor Principal --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 1.5rem; min-height: 80vh; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .card { 
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-card); 
+            padding: 4.5rem 3.5rem; margin-bottom: 3rem; box-shadow: var(--glow-static); 
+            position: relative; overflow: hidden; transition: 0.4s;
+        }
+        .card:hover { border-color: var(--border-focus); box-shadow: var(--glow-hover); }
+
+        h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); color: var(--text-main); line-height: 1.15; margin-bottom: 1.5rem; letter-spacing: -1px;}
+        h1 span { color: var(--primary); }
+        h2 { font-size: 2rem; margin: 3.5rem 0 1.5rem; color: var(--text-main); }
+        p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        
+        .bold-purple { color: var(--primary); font-weight: 700; }
+        .bold-green { color: var(--secondary); font-weight: 700; }
+        
+        .lang-en { font-family: 'JetBrains Mono', monospace; background: var(--surface-hover); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 8px; font-weight: 600; color: var(--primary); font-size: 1.05rem; }
+        
+        .explainer-box { background: var(--secondary-light); border-left: 6px solid var(--secondary); padding: 2.5rem; border-radius: 16px; margin: 3rem 0; }
+        .explainer-box p { color: var(--text-main); margin-bottom: 0; font-weight: 500; }
+        .explainer-box b { color: var(--secondary); font-size: 1.3rem; display: block; margin-bottom: 10px; font-family: 'Lora', serif; }
+
+        /* Logic Visualization Panels */
+        .logic-panel { 
+            background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 20px; 
+            padding: 2.5rem; margin: 2rem 0; text-align: center;
+        }
+        .formula { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; font-weight: 700; font-family: 'JetBrains Mono', monospace;}
+        .node { padding: 12px 24px; border-radius: 12px; border: 2px solid var(--border-color); background: var(--surface-color); font-size: 1.1rem; box-shadow: var(--shadow-card); }
+        .node.active-subj { border-color: var(--error); color: var(--error); background: rgba(220, 38, 38, 0.05); }
+        .node.passive-obj { border-color: var(--secondary); color: var(--secondary); background: var(--secondary-light); }
+        .node.verb-be { border-color: var(--primary); color: var(--primary); background: var(--primary-light); font-weight: 800;}
+
+        /* Rule Grid */
+        .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 2rem; }
+        .rule-box { padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-color); transition: 0.4s; }
+        .rule-box:hover { transform: translateY(-5px); box-shadow: var(--glow-static); border-color: var(--primary); }
+        .rule-box h3 { font-size: 1.4rem; color: var(--primary); margin-bottom: 15px; font-family: 'Lora', serif; }
+        .rule-box i { font-size: 2rem; color: var(--primary); margin-bottom: 15px; opacity: 0.8; }
+
+        /* --- Interactive Workshop --- */
+        .workshop-area { background: var(--bg-color); padding: 3.5rem 2.5rem; border-radius: 24px; margin-top: 3rem; text-align: center; border: 1px solid var(--border-color); }
+        
+        .active-sentence-box { background: var(--surface-color); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem; font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.02);}
+
+        .audio-trigger { 
+            background: var(--surface-hover); color: var(--primary); border: 2px solid var(--border-color); 
+            padding: 14px 28px; border-radius: 30px; cursor: pointer; font-weight: 700; 
+            display: inline-flex; align-items: center; gap: 12px; font-size: 1.05rem; transition: 0.3s;
+            font-family: 'Nunito Sans', sans-serif; margin-bottom: 2rem;
+        }
+        .audio-trigger:hover { background: var(--primary); color: white; border-color: var(--primary); box-shadow: var(--glow-static); }
+
+        .drop-zone { 
+            min-height: 100px; border: 3px dashed var(--secondary); border-radius: 20px; 
+            background: var(--surface-color); margin: 2rem 0; padding: 25px; 
+            display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center;
+            transition: 0.3s ease;
+        }
+        
+        .word-pool { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; min-height: 80px; }
+        
+        .word-chip { 
+            background: var(--surface-color); border: 1px solid var(--border-color); padding: 14px 24px; 
+            border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 1.2rem;
+            color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.2s; font-family: 'JetBrains Mono', monospace;
+        }
+        .word-chip:hover { transform: scale(1.05); border-color: var(--primary); color: var(--primary); }
+
+        .teacher-note {
+            display: none; background: var(--secondary-light); border: 1px solid rgba(5, 150, 105, 0.3); 
+            border-radius: 20px; padding: 2.5rem; margin-top: 3rem; text-align: left; 
+            animation: fadeUp 0.5s forwards;
+        }
+        .teacher-note b { color: var(--secondary); font-size: 1.3rem; display: block; margin-bottom: 15px; font-family: 'Lora', serif;}
+        .teacher-note p { color: var(--text-main); font-size: 1.15rem; margin-bottom: 0; }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 2.5rem; }
+        .btn-ui { padding: 18px; border-radius: 16px; border: 1px solid transparent; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 1.1rem; font-family: 'Nunito Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .btn-ui.clear { background: var(--surface-color); color: var(--error); border-color: var(--border-color); }
+        .btn-ui.clear:hover { border-color: var(--error); background: rgba(220, 38, 38, 0.05); }
+        .btn-ui.verify { background: var(--primary); color: white; box-shadow: var(--glow-static); }
+        .btn-ui.verify:hover { transform: translateY(-3px); box-shadow: var(--glow-hover); background: #312e81; }
+
+        /* --- Quiz System --- */
+        .quiz-option { 
+            width: 100%; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border-color); 
+            border-radius: 16px; background: var(--surface-color); color: var(--text-main); 
+            font-weight: 600; text-align: left; cursor: pointer; transition: 0.2s; font-size: 1.15rem;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); transform: translateX(8px); }
+        
+        .timer-track { width: 100%; height: 8px; background: var(--border-color); border-radius: 10px; margin-bottom: 3rem; overflow: hidden; }
+        #timer-fill { width: 100%; height: 100%; background: var(--secondary); transition: width 1s linear; }
+
+        .success-frame { text-align: center; display: none; }
+        .success-img-box { width: 100%; max-width: 420px; margin: 3rem auto; border-radius: 24px; border: 4px solid var(--border-color); overflow: hidden; box-shadow: var(--glow-static); }
+        .success-img-box img { width: 100%; display: block; }
+        
+        .review-box { background: var(--bg-color); border: 1px solid var(--border-color); border-left: 4px solid var(--error); border-radius: 16px; padding: 2.5rem; margin: 3rem 0; text-align: left; display: none; }
+        .review-box h3 { color: var(--error); margin-top: 0; font-family: 'Lora', serif; font-size: 1.5rem; margin-bottom: 1.5rem;}
+        .review-item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed var(--border-color); }
+        .review-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        /* --- Botones Genéricos --- */
+        .btn-action {
+            display: inline-flex; align-items: center; justify-content: center; gap: 15px; 
+            background: var(--primary); color: #ffffff; padding: 20px 40px; border-radius: 30px; 
+            text-decoration: none; font-weight: 700; font-size: 1.2rem; margin-top: 2rem; 
+            transition: 0.4s; border: none; cursor: pointer; width: 100%; 
+            box-shadow: var(--glow-static); font-family: 'Nunito Sans', sans-serif;
+        }
+        .btn-action:hover { transform: translateY(-5px); box-shadow: var(--glow-hover); }
+
+        /* --- WhatsApp Left --- */
+        .wa-float { 
+            position: fixed; bottom: 40px; left: 40px; background: #25d366; color: white; 
+            width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 36px; z-index: 4000; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            text-decoration: none; transition: 0.4s; border: 3px solid var(--surface-color);
+        }
+        .wa-float:hover { transform: translateY(-8px) scale(1.1); box-shadow: 0 15px 35px rgba(37, 211, 102, 0.5); }
+
+        /* --- Footer Premium --- */
+        footer { 
+            padding: 6rem 3rem 4rem; text-align: center; border-top: 1px solid var(--border-color); 
+            margin-top: 8rem; background: var(--surface-color); color: var(--text-muted); 
+        }
+        .footer-brand { font-family: 'Lora', serif; font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; }
+        .footer-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
+        .footer-email { color: var(--primary); font-weight: 700; text-decoration: none; display: inline-block; margin-bottom: 2rem; transition: 0.3s; }
+        .footer-email:hover { color: var(--text-main); }
+        .footer-license { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); opacity: 0.6; }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 1.5rem; }
+            .container { padding: 2rem 1rem; }
+            .card { padding: 3rem 1.5rem; }
+            .sidebar { width: 100%; }
+            .wa-float { width: 60px; height: 60px; font-size: 32px; bottom: 25px; left: 25px; }
+            .action-grid { grid-template-columns: 1fr; }
+            .formula { flex-direction: column; }
+            .formula i { transform: rotate(90deg); margin: 5px 0; }
+        }
+    </style>
+</head>
+<body onclick="unlockAudio()">
+
+<div class="learning-bg"></div>
+
+<header>
+    <div class="header-brand" onclick="nav('home')">
+        <div class="logo-box">
+            <img src="https://drive.google.com/thumbnail?id=1bOFY9XiVAv-WRQnVHXSnL5FHVEoK3UAp&sz=w256" alt="Rators Logo">
+        </div>
+        <div class="brand-text">Passive Voice Lab</div>
+    </div>
+    <button class="menu-trigger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+</header>
+
+<div class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+    
+    <div class="nav-title">Tu Camino</div>
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+        <button class="side-btn active" onclick="nav('home', this)"><i class="fas fa-home"></i> Introducción</button>
+        <button class="side-btn" onclick="nav('theory', this)"><i class="fas fa-book-open"></i> El Cambio de Enfoque</button>
+        <button class="side-btn" onclick="nav('practice', this)"><i class="fas fa-wrench"></i> Taller de Reconstrucción</button>
+        <button class="side-btn" onclick="nav('evaluation', this)"><i class="fas fa-stopwatch"></i> Evaluación B1</button>
+    </div>
+
+    <div class="theme-control">
+        <span>Modo Biblioteca</span>
+        <label class="switch">
+            <input type="checkbox" id="themeInput" onchange="toggleTheme()">
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
+
+<div class="container">
+
+    <section id="sec-home" class="section active">
+        <div class="card">
+            <h1 class="serif-text">The Focus <span>Shift</span></h1>
+            <p>En niveles básicos, aprendemos a narrar el mundo como niños: identificamos a una persona y decimos qué hizo. <i>"Alguien robó mi auto."</i></p>
+            <p>Pero en el mundo profesional, académico o en las noticias, a menudo no sabemos quién hizo la acción, o simplemente no importa. Lo que importa es <b>el objeto o la víctima</b>.</p>
+            
+            <div class="explainer-box">
+                <b>Bienvenido a la Voz Pasiva</b>
+                <p>La voz pasiva no es un tiempo verbal nuevo, es un "Cambio de Enfoque". Es quitarle el reflector al <b>Sujeto</b> y ponérselo al <b>Objeto</b> que recibió la acción. <br><br>En lugar de <i>"Alguien robó mi auto"</i>, dirás <i>"Mi auto fue robado."</i></p>
+            </div>
+
+            <button class="btn-action" onclick="nav('theory')">Aprender la Estructura <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </section>
+
+    <section id="sec-theory" class="section">
+        <div class="card">
+            <h1 class="serif-text">Grammar <span style="color: var(--secondary);">Theory</span></h1>
+            <p>Para construir una oración pasiva, no necesitas pensar en español, necesitas seguir una fórmula arquitectónica de 3 pasos.</p>
+            
+            
+
+            <div class="logic-panel">
+                <p style="margin-bottom: 15px; font-weight: 700; color: var(--text-muted); font-family: 'Nunito Sans', sans-serif;">Active: <span class="lang-en" style="background:transparent; border:none; padding:0; color:var(--text-main);">Someone stole my car.</span></p>
+                <div class="formula">
+                    <div class="node passive-obj">1. Object (My car)</div> <i class="fas fa-plus"></i> 
+                    <div class="node verb-be">2. To Be (was)</div> <i class="fas fa-plus"></i> 
+                    <div class="node">3. Past Participle (stolen)</div>
+                </div>
+            </div>
+
+            <h2 class="serif-text" style="margin-top: 4rem;">El Secreto de la Transformación</h2>
+            <p>El error número uno es olvidar el verbo <b>To Be</b>. El verbo To Be es el que "absorbe" el tiempo verbal de la oración original.</p>
+            
+            <ul style="list-style: none; padding: 0; margin-top: 1.5rem;">
+                <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 10px;"></i> Si la activa está en <b>Presente</b> (cleans), usas <b>am / is / are</b>.</li>
+                <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 10px;"></i> Si la activa está en <b>Pasado</b> (stole), usas <b>was / were</b>.</li>
+            </ul>
+
+            <h2 class="serif-text" style="margin-top: 4rem;">¿Cuándo usamos la Voz Pasiva?</h2>
+            
+            <div class="rule-grid">
+                <div class="rule-box">
+                    <i class="fas fa-user-secret"></i>
+                    <h3>Unknown Doer</h3>
+                    <p>Cuando no sabemos quién hizo la acción.</p>
+                    <p class="lang-en" style="background:transparent; border:none; padding:0; display:block; margin-top:10px;">My wallet was taken.</p>
+                </div>
+                
+                <div class="rule-box">
+                    <i class="fas fa-eye"></i>
+                    <h3>Obvious Doer</h3>
+                    <p>Cuando es muy obvio quién lo hizo y no hace falta mencionarlo.</p>
+                    <p class="lang-en" style="background:transparent; border:none; padding:0; display:block; margin-top:10px;">The thief was arrested.</p>
+                </div>
+
+                <div class="rule-box" style="border-color: var(--primary);">
+                    <i class="fas fa-bullseye" style="color: var(--primary);"></i>
+                    <h3 style="color: var(--primary);">Focus on Action</h3>
+                    <p>Cuando el producto final es más importante que el creador.</p>
+                    <p class="lang-en" style="background:transparent; border:none; padding:0; display:block; margin-top:10px;">Hamlet was written in 1599.</p>
+                </div>
+            </div>
+
+            <button class="btn-action" style="background: var(--surface-color); color: var(--text-main); border: 2px solid var(--border-color); box-shadow: none;" onclick="nav('practice')">Ir al Taller de Reconstrucción <i class="fas fa-wrench"></i></button>
+        </div>
+    </section>
+
+    <section id="sec-practice" class="section">
+        <div class="card">
+            <h1 class="serif-text">Taller de <span style="color: var(--primary);">Reconstrucción</span></h1>
+            <p>Lee la oración en Voz Activa. Luego, escucha el audio y arrastra los bloques para construir su equivalente en <b>Voz Pasiva</b>. Presta mucha atención al verbo <i>To Be</i>.</p>
+            
+            <div class="workshop-area">
+                <div class="active-sentence-box">
+                    <span style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; font-family: 'Nunito Sans', sans-serif;">Oración Activa:</span>
+                    <span id="activeSentenceDisplay">Shakespeare wrote Hamlet</span>
+                </div>
+
+                <button class="audio-trigger" onclick="playCurrentPrac()">
+                    <i class="fas fa-volume-up"></i> Escuchar Versión Pasiva
+                </button>
+
+                <div class="drop-zone" id="dropPort"></div>
+                <div class="word-pool" id="wordDock"></div>
+
+                <div class="action-grid" id="actionGrid">
+                    <button class="btn-ui clear" onclick="resetWorkshop()"><i class="fas fa-undo"></i> Reiniciar</button>
+                    <button class="btn-ui verify" onclick="verifySentence()"><i class="fas fa-check"></i> Comprobar</button>
+                </div>
+
+                <div class="teacher-note" id="teacherExp">
+                    <b><i class="fas fa-lightbulb"></i> Teacher's Note:</b>
+                    <p id="expText"></p>
+                    <button class="btn-ui verify" style="width: 100%; margin-top:20px;" onclick="nextPrac()">Siguiente Reto <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sec-evaluation" class="section">
+        <div class="card">
+            <div id="quiz-preamble">
+                <h1 class="serif-text">Evaluación <span style="color: var(--secondary);">B1</span></h1>
+                <p>Es momento de evaluar tu instinto estructural. Tienes <b>5 minutos</b> para resolver 10 oraciones mezcladas entre presente y pasado pasivo.</p>
+                <div class="explainer-box" style="padding: 1.5rem; margin-top: 1.5rem; margin-bottom: 2.5rem; background: var(--surface-hover); border-color: var(--border-color);">
+                    <p style="color: var(--text-muted);">Requiere un mínimo de <b>80%</b> para obtener la certificación. Los errores serán analizados al finalizar.</p>
+                </div>
+                <button class="btn-action" style="margin-top: 0;" onclick="startEvaluation()">Iniciar Protocolo de Prueba 🚀</button>
+            </div>
+
+            <div id="quiz-active" style="display:none;">
+                <div class="timer-track"><div id="timer-fill"></div></div>
+                <div id="question-box"></div>
+            </div>
+
+            <div class="success-frame" id="quiz-success">
+                <h1 id="result-heading" class="serif-text" style="color: var(--secondary);">¡CERTIFICACIÓN OBTENIDA!</h1>
+                <p id="result-sub" style="font-size:1.2rem; color: var(--text-muted);">Has dominado el cambio de enfoque (Focus Shift).</p>
+                
+                <div class="success-img-box" id="success-image-container">
+                    <img src="https://drive.google.com/thumbnail?id=1LQBUcZNOdb4SPKnAe6QfU63q6ylO8sa7&sz=w800" alt="Success">
+                </div>
+                
+                <p id="final-result-text" style="font-size: 3.5rem; font-weight: 800; color: var(--primary); margin: 1.5rem 0; font-family: 'Lora', serif;"></p>
+                
+                <div class="review-box" id="reviewBox">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Análisis de Errores:</h3>
+                    <div id="reviewContent"></div>
+                </div>
+
+                <button class="btn-action" style="background: var(--surface-color); color: var(--text-main); border: 2px solid var(--border-color); box-shadow: none;" onclick="location.reload()">Volver al Inicio</button>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <div class="footer-content" style="max-width: 800px; margin: 0 auto;">
+        <div class="footer-brand">Rators Club</div>
+        <p class="footer-text">Teacher Netza Varo • Fluent Architecture</p>
+        <a href="mailto:teacher.netza.varo@gmail.com" class="footer-email">teacher.netza.varo@gmail.com</a>
+        <p class="footer-text">Tepic, Nayarit, México</p>
+        <div class="footer-license">PLATINUM EDITION 2026 | GNU GPL v3.0 | BY RATORS TEAM</div>
+    </div>
+</footer>
+
+<a href="https://wa.me/523231116425?text=Hola%20Teacher%20Netza,%20estoy%20en%20el%20Laboratorio%20de%20Voz%20Pasiva%20y%20me%20gustar%C3%ADa%20mejorar%20mi%20gram%C3%A1tica." class="wa-float" target="_blank" title="Contactar a Teacher">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+    /* ========================================
+       ENGINE: PASSIVE VOICE LOGIC B1
+       ======================================== */
+    
+    // --- Audio Synthesis ---
+    let audioUnlocked = false;
+    function unlockAudio() { if(!audioUnlocked) { window.speechSynthesis.speak(new SpeechSynthesisUtterance("")); audioUnlocked = true; } }
+    function speakText(txt) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(txt);
+        msg.lang = 'en-US'; msg.rate = 0.85;
+        window.speechSynthesis.speak(msg);
+    }
+
+    // --- Navigation & Theme ---
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+    
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('rators-premium-theme', isDark ? 'dark' : 'light');
+    }
+
+    function nav(id, btn) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        setTimeout(() => { document.getElementById('sec-' + id).classList.add('active'); }, 50);
+        
+        document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        
+        if(document.getElementById('sidebar').classList.contains('active')) toggleSidebar();
+        window.scrollTo(0,0);
+        if(id === 'practice') initWorkshop();
+    }
+
+    // --- Guided Workshop Logic ---
+    const workshopData = [
+        {
+            active: "Shakespeare wrote Hamlet",
+            full: "Hamlet was written by Shakespeare", 
+            words: ["Hamlet", "was", "written", "by", "Shakespeare"],
+            exp: "¡Excelente! La oración original está en pasado ('wrote'), por lo que usamos el verbo To Be en pasado singular ('was') y el verbo principal en participio ('written')."
+        },
+        {
+            active: "They clean the office every day",
+            full: "The office is cleaned every day", 
+            words: ["The office", "is", "cleaned", "every day"],
+            exp: "Perfecto. La activa está en presente ('clean'). Usamos 'is' porque 'The office' es singular, más el participio regular 'cleaned'."
+        },
+        {
+            active: "Someone took my wallet",
+            full: "My wallet was taken", 
+            words: ["My wallet", "was", "taken"],
+            exp: "¡Bien hecho! Omitiste el 'by someone' porque cuando no sabemos quién fue (Unknown doer), es innecesario mencionarlo en la voz pasiva."
+        },
+        {
+            active: "Many people speak English here",
+            full: "English is spoken here",
+            words: ["English", "is", "spoken", "here"],
+            exp: "Muy bien. El enfoque cambia de 'Muchas personas' al idioma en sí ('English')."
+        },
+        {
+            active: "Alexander Graham Bell invented the telephone",
+            full: "The telephone was invented by Alexander Graham Bell",
+            words: ["The telephone", "was", "invented", "by", "Alexander Graham Bell"],
+            exp: "¡Correcto! Aquí SÍ usamos el 'by' porque la persona que hizo la acción es información histórica importante."
+        }
+    ];
+    let curPracIdx = 0;
+
+    function initWorkshop() {
+        document.getElementById('teacherExp').style.display = 'none';
+        document.getElementById('actionGrid').style.display = 'grid';
+        
+        const data = workshopData[curPracIdx];
+        document.getElementById('activeSentenceDisplay').innerText = data.active;
+        
+        const dock = document.getElementById('wordDock');
+        const port = document.getElementById('dropPort');
+        dock.innerHTML = ''; port.innerHTML = '';
+        port.style.borderColor = 'var(--secondary)';
+
+        [...data.words].sort(() => Math.random() - 0.5).forEach(word => {
+            const chip = document.createElement('div');
+            chip.className = 'word-chip';
+            chip.innerText = word;
+            chip.onclick = () => { 
+                port.appendChild(chip); 
+                speakText(word); 
+            };
+            dock.appendChild(chip);
+        });
+    }
+
+    function playCurrentPrac() { speakText(workshopData[curPracIdx].full); }
+    function resetWorkshop() { initWorkshop(); }
+
+    function verifySentence() {
+        const result = Array.from(document.getElementById('dropPort').children).map(c => c.innerText).join(' ');
+        const dropZone = document.getElementById('dropPort');
+
+        if(result === workshopData[curPracIdx].full) {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById('actionGrid').style.display = 'none'; 
+            dropZone.style.borderColor = 'var(--secondary)'; // Emerald
+            
+            const expBox = document.getElementById('teacherExp');
+            document.getElementById('expText').innerHTML = workshopData[curPracIdx].exp;
+            expBox.style.display = 'block';
+            speakText("Structure verified. Excellent focus shift.");
+            
+        } else {
+            dropZone.style.borderColor = 'var(--error)';
+            speakText("Incorrect structure. Remember the To Be verb.");
+            setTimeout(() => dropZone.style.borderColor = 'var(--secondary)', 1500);
+        }
+    }
+
+    function nextPrac() {
+        curPracIdx = (curPracIdx + 1) % workshopData.length;
+        initWorkshop();
+    }
+
+    // --- Final Evaluation Logic ---
+    const quizItems = [
+        { q: "Active: Somebody stole my laptop yesterday. <br> Passive: My laptop ____ yesterday.", a: "was stolen", o: ["is stolen", "was stolen", "stole"] },
+        { q: "Active: They build a lot of new cars in this factory. <br> Passive: A lot of new cars ____ in this factory.", a: "are built", o: ["were built", "are built", "is built"] },
+        { q: "Active: The police arrested the thief. <br> Passive: The thief ____.", a: "was arrested", o: ["is arrested", "was arrested", "arrested"] },
+        { q: "Active: Millions of people use the internet every day. <br> Passive: The internet ____ by millions of people every day.", a: "is used", o: ["was used", "uses", "is used"] },
+        { q: "Active: JK Rowling wrote 'Macbeth'? (Wait, Shakespeare did). <br> 'Macbeth' ____ by Shakespeare.", a: "was written", o: ["is written", "was written", "wrote"] },
+        { q: "Active: Someone cleans these rooms every morning. <br> Passive: These rooms ____ every morning.", a: "are cleaned", o: ["is cleaned", "were cleaned", "are cleaned"] },
+        { q: "Active: They didn't invite me to the party. <br> Passive: I ____ to the party.", a: "wasn't invited", o: ["am not invited", "wasn't invited", "didn't invited"] },
+        { q: "Active: People speak Spanish in Mexico. <br> Passive: Spanish ____ in Mexico.", a: "is spoken", o: ["was spoken", "is spoken", "speaks"] },
+        { q: "Active: Someone took my keys! <br> Passive: My keys ____!", a: "were taken", o: ["was taken", "were taken", "are taken"] },
+        { q: "Active: Leonardo da Vinci invented the telephone? (No, Bell did). <br> The telephone ____ by Bell.", a: "was invented", o: ["is invented", "was invented", "were invented"] }
+    ];
+
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizClock;
+    let mistakesArray = [];
+
+    function startEvaluation() {
+        document.getElementById('quiz-preamble').style.display = 'none';
+        document.getElementById('quiz-active').style.display = 'block';
+        mistakesArray = [];
+        quizScore = 0;
+        quizIdx = 0;
+        
+        let timeLeft = 300; 
+        quizClock = setInterval(() => {
+            timeLeft -= 0.2;
+            document.getElementById('timer-fill').style.width = (timeLeft / 300) * 100 + '%';
+            if(timeLeft <= 0) finishEvaluation();
+        }, 200);
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if(quizIdx >= quizItems.length) return finishEvaluation();
+        
+        const data = quizItems[quizIdx];
+        const box = document.getElementById('question-box');
+        box.innerHTML = `<h3 style="font-size: 1.35rem; margin-bottom: 2rem; color:var(--text-main); font-family:'Nunito Sans', sans-serif; font-weight: 600; line-height: 1.6;">${data.q}</h3>`;
+        
+        data.o.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.innerText = opt;
+            btn.onclick = () => {
+                if(opt === data.a) {
+                    quizScore++;
+                } else {
+                    mistakesArray.push({
+                        question: data.q.split('<br>')[1].replace('____', `<b style="color:var(--secondary);">${data.a}</b>`),
+                        userAnswer: opt
+                    });
+                }
+                quizIdx++;
+                showQuestion();
+            };
+            box.appendChild(btn);
+        });
+    }
+
+    function finishEvaluation() {
+        clearInterval(quizClock);
+        document.getElementById('quiz-active').style.display = 'none';
+        document.getElementById('quiz-success').style.display = 'block';
+        
+        const resultText = document.getElementById('final-result-text');
+        const heading = document.getElementById('result-heading');
+        const sub = document.getElementById('result-sub');
+        const imgBox = document.getElementById('success-image-container');
+        
+        resultText.innerText = `${quizScore} / 10`;
+        
+        if(quizScore >= 8) {
+            confetti({ particleCount: 300, spread: 120, origin: { y: 0.6 } });
+            heading.innerText = "¡CERTIFICACIÓN OBTENIDA!";
+            heading.style.color = "var(--secondary)";
+            sub.innerText = "Eres capaz de aplicar el Focus Shift con fluidez.";
+            imgBox.style.display = "block";
+        } else {
+            heading.innerText = "EVALUACIÓN FALLIDA";
+            heading.style.color = "var(--error)";
+            sub.innerText = "Debes repasar si la oración activa está en presente o pasado. Revisa tus errores abajo.";
+            imgBox.style.display = "none";
+            resultText.style.color = "var(--error)";
+        }
+
+        const reviewBox = document.getElementById('reviewBox');
+        const reviewContent = document.getElementById('reviewContent');
+        if (mistakesArray.length > 0) {
+            reviewBox.style.display = 'block';
+            let html = '';
+            mistakesArray.forEach((err, i) => {
+                html += `<div class="review-item">
+                            <p style="margin:0; font-size:1.1rem; color:var(--text-main);"><b>${i+1}.</b> ${err.question}</p>
+                            <p style="margin:8px 0 0; color:var(--text-muted); font-size:0.95rem;">Seleccionaste: <span style="color:var(--error); text-decoration:line-through; font-weight:700;">${err.userAnswer}</span></p>
+                         </div>`;
+            });
+            reviewContent.innerHTML = html;
+        } else {
+            reviewBox.style.display = 'none';
+        }
+    }
+
+    window.onload = () => {
+        const pref = localStorage.getItem('rators-premium-theme');
+        if(pref === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('themeInput').checked = true;
+        }
+    };
+</script>
+
+</body>
+</html>
